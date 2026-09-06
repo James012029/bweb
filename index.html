@@ -265,14 +265,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const result = await response.json();
 
-           if (result.success) {
+        if (result.success) {
     message.textContent = "Login successful.";
     window.location.href = window.location.origin + "/";
+} else {
+    message.textContent =
+        result.message || "Unable to log in.";
 }
-            } else {
-                message.textContent =
-                    result.message || "Unable to log in.";
-            }
         } catch (error) {
             console.error("Submission error:", error);
             message.textContent =
