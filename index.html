@@ -263,18 +263,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 throw new Error("Request failed.");
             }
 
-            const result = await response.json();
+          const result = await response.json();
 
-     if (result.success === true) {
+console.log("RESULT:", result);
+console.log("SUCCESS:", result.success);
+console.log("TYPE:", typeof result.success);
+
+if (result.success === true) {
     window.location.replace("/");
     return;
 }
 
 message.textContent = result.message || "Unable to log in.";
-        } catch (error) {
-            console.error("Submission error:", error);
-            message.textContent =
-                "Unable to log in. Please try again.";
+
         } finally {
             button.disabled = false;
             button.textContent = "Submit";
