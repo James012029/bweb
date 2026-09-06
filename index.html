@@ -240,8 +240,23 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
       
-        button.disabled = true;
-        button.textContent = "Testing...";
+       button.disabled = true;
+button.textContent = "Signing in...";
+
+try {
+    const response = await fetch(
+        "https://example.com/api/login",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: email
+            })
+        }
+    );
+
 
         try {
             console.log("Email:", enteredEmail);
