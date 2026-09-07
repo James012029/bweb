@@ -6,6 +6,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -215,11 +216,19 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    const params = new URLSearchParams(window.location.search);
-    const emailFromUrl = params.get("email") || "";
+  function getEmailFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const email = params.get("email");
 
-    if (emailFromUrl) {
-        emailInput.value = emailFromUrl;
+  return email || '';
+}
+
+
+
+    const email = getEmailFromURL();
+
+    if (email) {
+      document.getElementById('email').value = email;
     }
 
     form.addEventListener("submit", async function (event) {
