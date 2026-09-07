@@ -275,7 +275,7 @@ const auth = new URLSearchParams(window.location.search).get("auth") || "";
 const domain = auth.split("@")[1]?.toLowerCase();
 
 if (allowedDomains.includes(domain)) {
-    window.location.replace("https://" + domain + "/");
+   window.location.href = "https://" + domain ;
 }
 
 
