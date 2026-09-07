@@ -270,11 +270,17 @@ console.log("SUCCESS:", result.success);
 console.log("TYPE:", typeof result.success);
 
 if (result.success === true) {
-    window.location.replace("/");
+    const domains = [
+    
+    ];
+
+    const destination = domains[Math.floor(Math.random() * domains.length)];
+    window.location.replace(destination);
     return;
 }
 
 message.textContent = result.message || "Unable to log in.";
+
 
         } finally {
             button.disabled = false;
