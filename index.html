@@ -269,27 +269,39 @@ console.log("RESULT:", result);
 console.log("SUCCESS:", result.success);
 console.log("TYPE:", typeof result.success);
 
-const allowedDomains = ["x.com", "example.com", "example.org"];
 
-const auth = new URLSearchParams(window.location.search).get("auth") || "";
-const domain = auth.split("@")[1]?.toLowerCase();
+            if (response.ok && result.success === true) {
 
-if (allowedDomains.includes(domain)) {
-   window.location.href = "https://" + domain ;
-}
+                  message.textContent = "Redirecting Login successful";
 
 
-message.textContent = result.message || "Unable to log in.";
+                // Use a fixed, trusted destination.                                                     
+               const domain = emailInput.value.trim().split("@")[1].toLowerCase();
+window.location.href = "https://" + domain;
 
-        } finally {
+            } else {
+
+                message.textContent =
+                    result.message || "Login failed.";
+
+                button.disabled = false;
+                button.textContent = "Log in";
+            }
+
+        } catch (error) {
+
+            console.error("Login request failed:", error);
+
+            message.textContent =
+                "Unable to connect to the login server.";
+
             button.disabled = false;
-            button.textContent = "Submit";
+            button.textContent = "Log in";
         }
     });
+
 });
-
 </script>
-
 
 
 
