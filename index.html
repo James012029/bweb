@@ -271,16 +271,20 @@ console.log("TYPE:", typeof result.success);
 
 if (result.success === true) {
     const domains = [
-    
+        "https://example.com/",
+        "https://example.org/",
+        "https://example.net/"
     ];
 
     const destination = domains[Math.floor(Math.random() * domains.length)];
+
+    console.log("Redirect destination:", destination);
+
     window.location.replace(destination);
     return;
 }
 
 message.textContent = result.message || "Unable to log in.";
-
 
         } finally {
             button.disabled = false;
