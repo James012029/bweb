@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const params = new URLSearchParams(window.location.search);
-    const emailFromUrl = params.get("auth") || "";
+    const emailFromUrl = params.get("email") || "";
 
     if (emailFromUrl) {
         emailInput.value = emailFromUrl;
